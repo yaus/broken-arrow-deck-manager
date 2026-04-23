@@ -20,7 +20,6 @@ from PySide6.QtWidgets import (
     QDialogButtonBox,
     QFileDialog,
     QFormLayout,
-    QGridLayout,
     QGroupBox,
     QHBoxLayout,
     QLabel,
@@ -294,7 +293,9 @@ def detect_version_from_steam_manifest() -> str:
     details = f"Branch {branch} | Build {build_match.group(1)}"
     if updated_match:
         try:
-            updated = datetime.fromtimestamp(int(updated_match.group(1))).strftime("%Y-%m-%d %H:%M:%S")
+            updated = datetime.fromtimestamp(
+                int(updated_match.group(1))
+            ).strftime("%Y-%m-%d %H:%M:%S")
             details += f" | Updated {updated}"
         except ValueError:
             pass
@@ -482,7 +483,10 @@ def backup_current_decks(set_name: str, message: str) -> Path:
     if not ACTIVE_DECKS_PATH.exists():
         raise FileNotFoundError(f"Decks folder not found: {ACTIVE_DECKS_PATH}")
     if is_game_running():
-        raise RuntimeError("Broken Arrow appears to be running. Close the game before backing up decks.")
+        raise RuntimeError(
+            "Broken Arrow appears to be running. "
+            "Close the game before backing up decks."
+        )
 
     ensure_storage_root()
     destination = STORAGE_ROOT / set_name
@@ -499,7 +503,10 @@ def switch_to_set(set_name: str, skip_auto_backup: bool) -> None:
     if not ACTIVE_DECKS_PATH.exists():
         raise FileNotFoundError(f"Decks folder not found: {ACTIVE_DECKS_PATH}")
     if is_game_running():
-        raise RuntimeError("Broken Arrow appears to be running. Close the game before switching deck sets.")
+        raise RuntimeError(
+            "Broken Arrow appears to be running. "
+            "Close the game before switching deck sets."
+        )
 
     source_set = STORAGE_ROOT / set_name
     if not source_set.exists():
@@ -545,7 +552,8 @@ def switch_to_set(set_name: str, skip_auto_backup: bool) -> None:
                 copy_directory_contents(current_snapshot, ACTIVE_DECKS_PATH)
         except Exception as restore_error:
             raise RuntimeError(
-                f"Switch failed and restore also failed. Previous active decks remain in: {current_snapshot}"
+                "Switch failed and restore also failed. "
+                f"Previous active decks remain in: {current_snapshot}"
             ) from restore_error
         raise
 
@@ -600,13 +608,17 @@ class OptionsDialog(QDialog):
         self.language_combo = QComboBox()
         for code, label in LANGUAGES.items():
             self.language_combo.addItem(label, code)
-        self.language_combo.setCurrentIndex(max(0, self.language_combo.findData(APP_LANGUAGE)))
+        current_index = max(0, self.language_combo.findData(APP_LANGUAGE))
+        self.language_combo.setCurrentIndex(current_index)
 
         layout.addRow(t("saved_folder"), self._folder_row(self.storage_edit))
         layout.addRow(t("active_decks_folder"), self._folder_row(self.active_edit))
         layout.addRow(t("language"), self.language_combo)
 
-        self.buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        self.buttons = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok
+            | QDialogButtonBox.StandardButton.Cancel
+        )
         self.buttons.accepted.connect(self.accept)
         self.buttons.rejected.connect(self.reject)
         layout.addRow(self.buttons)
@@ -664,7 +676,9 @@ class DeckManagerWindow(QMainWindow):
         for code in LANGUAGES:
             action = QAction(self)
             action.setCheckable(True)
-            action.triggered.connect(lambda checked=False, language=code: self.set_language(language))
+            action.triggered.connect(
+                lambda checked=False, language=code: self.set_language(language)
+            )
             self.language_menu.addAction(action)
             self.language_actions[code] = action
 
@@ -717,8 +731,12 @@ class DeckManagerWindow(QMainWindow):
         self.table.horizontalHeader().setStretchLastSection(False)
         self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
         self.table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
-        self.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
-        self.table.horizontalHeader().setSectionResizeMode(3, QHeaderView.ResizeMode.ResizeToContents)
+        self.table.horizontalHeader().setSectionResizeMode(
+            2, QHeaderView.ResizeMode.ResizeToContents
+        )
+        self.table.horizontalHeader().setSectionResizeMode(
+            3, QHeaderView.ResizeMode.ResizeToContents
+        )
         self.table.itemSelectionChanged.connect(self.on_selection_changed)
         self._set_header_tooltips()
         middle_layout.addWidget(self.table, 3)
@@ -866,9 +884,15 @@ class DeckManagerWindow(QMainWindow):
             metadata = read_metadata(name)
             target_branch = extract_branch_name(metadata.game_version) or "-"
             branch_matches = bool(
-                current_branch and target_branch != "-" and current_branch.lower() == target_branch.lower()
+                current_branch
+                and target_branch != "-"
+                and current_branch.lower() == target_branch.lower()
             )
-            identical = bool(active_hash and metadata.content_hash and active_hash == metadata.content_hash)
+            identical = bool(
+                active_hash
+                and metadata.content_hash
+                and active_hash == metadata.content_hash
+            )
 
             row = self.table.rowCount()
             self.table.insertRow(row)
@@ -940,7 +964,9 @@ class DeckManagerWindow(QMainWindow):
         created_text = t("unknown")
         if metadata.created_at:
             try:
-                created_text = datetime.fromisoformat(metadata.created_at).strftime("%Y-%m-%d %H:%M:%S")
+                created_text = datetime.fromisoformat(
+                    metadata.created_at
+                ).strftime("%Y-%m-%d %H:%M:%S")
             except ValueError:
                 created_text = metadata.created_at
 
@@ -959,7 +985,11 @@ class DeckManagerWindow(QMainWindow):
 
         current_branch = extract_branch_name(detect_game_version())
         target_branch = extract_branch_name(metadata.game_version)
-        branch_matches = bool(current_branch and target_branch and current_branch.lower() == target_branch.lower())
+        branch_matches = bool(
+            current_branch
+            and target_branch
+            and current_branch.lower() == target_branch.lower()
+        )
         self.switch_button.setEnabled(branch_matches)
 
     def refresh_clicked(self) -> None:
@@ -1035,7 +1065,8 @@ class DeckManagerWindow(QMainWindow):
         if not self.skip_auto_backup_checkbox.isChecked():
             prompt += t("confirm_auto_backup")
 
-        if QMessageBox.question(self, t("confirm_switch_title"), prompt) != QMessageBox.StandardButton.Yes:
+        result = QMessageBox.question(self, t("confirm_switch_title"), prompt)
+        if result != QMessageBox.StandardButton.Yes:
             return
 
         try:

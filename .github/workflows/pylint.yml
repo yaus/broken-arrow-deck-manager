@@ -26,4 +26,4 @@ jobs:
 
       - name: Run pylint
         run: |
-          python -m pylint --disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,too-many-lines,too-many-instance-attributes,too-many-public-methods src/broken_arrow_deck_manager.py
+          python -m pylint --rcfile=.pylintrc src/broken_arrow_deck_manager.py

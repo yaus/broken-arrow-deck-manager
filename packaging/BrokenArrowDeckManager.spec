@@ -3,7 +3,7 @@
 from pathlib import Path
 
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+PROJECT_ROOT = Path.cwd().resolve()
 OPTIONAL_DECK_SETS = PROJECT_ROOT / 'deck_sets'
 datas = [
     ('..\\assets\\icons\\broken_arrow_deck_manager_icon.ico', '.'),

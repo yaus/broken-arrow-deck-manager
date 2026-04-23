@@ -1,0 +1,15 @@
+[MAIN]
+py-version=3.12
+
+[MESSAGES CONTROL]
+disable=
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+    no-name-in-module,
+    global-statement,
+    too-few-public-methods,
+    too-many-lines,
+    too-many-instance-attributes,
+    too-many-statements,
+    broad-exception-caught
