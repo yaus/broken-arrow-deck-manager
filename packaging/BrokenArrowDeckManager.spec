@@ -5,7 +5,11 @@ a = Analysis(
     ['..\\src\\broken_arrow_deck_manager.py'],
     pathex=[],
     binaries=[],
-    datas=[('..\\deck_sets', 'deck_sets'), ('..\\assets\\icons\\broken_arrow_deck_manager_icon.ico', '.')],
+    datas=[
+        ('..\\deck_sets', 'deck_sets'),
+        ('..\\assets\\icons\\broken_arrow_deck_manager_icon.ico', '.'),
+        ('..\\locales', 'locales'),
+    ],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

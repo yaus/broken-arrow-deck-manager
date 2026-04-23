@@ -6,9 +6,9 @@ Project purpose:
 Important folders:
 - src/ : main source
 - assets/icons/ : icons used by source and packaged build
+- locales/ : runtime-loaded UI language files
 - packaging/BrokenArrowDeckManager.spec : PyInstaller spec
 - deck_sets/ : source-run saved deck data
-- legacy/tkinter/ : old backup implementation
 
 Run from source:
 - python .\src\broken_arrow_deck_manager.py
@@ -19,6 +19,7 @@ Build packaged app:
 Current behavior:
 - Source runs use project root as APP_ROOT.
 - Packaged runs use the exe folder as APP_ROOT.
+- UI languages are loaded from locales/*.json.
 - Settings file is deck_manager_settings.json beside APP_ROOT.
 - Default saved deck folder is APP_ROOT\deck_sets.
 - Default active game deck folder is %USERPROFILE%\AppData\LocalLow\SteelBalalaikaStudio\BrokenArrow\Decks.
@@ -26,7 +27,7 @@ Current behavior:
 - File -> Options lets the user change saved deck folder, active deck folder, and language.
 
 Packaging notes:
-- Spec bundles deck_sets and the .ico file.
+- Spec bundles deck_sets, locales, and the .ico file.
 - Packaged exe output is dist\BrokenArrowDeckManager\BrokenArrowDeckManager.exe.
 
 Git:

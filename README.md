@@ -120,10 +120,40 @@ Supported languages:
 
 - `English`
 - `繁體中文`
+- `简体中文`
+- `日本語`
+- `한국어`
+- `Русский`
+- `Deutsch`
+- `Français`
+- `Español`
+- `Português (Brasil)`
 
 Change language from the menu:
 
 `Language` -> `English` or `繁體中文`
+
+Languages are loaded from:
+
+```text
+locales\*.json
+```
+
+Each locale file uses this structure:
+
+```json
+{
+  "code": "en",
+  "label": "English",
+  "strings": {
+    "app_title": "Broken Arrow Deck Manager"
+  }
+}
+```
+
+The app discovers these files automatically at startup.
+
+To add another language, add a new JSON file in `locales\` with a unique `code`, a menu `label`, and the translated `strings`.
 
 ## How to use the app
 
@@ -221,10 +251,17 @@ deck_tools/
 │     ├─ broken_arrow_deck_manager_icon.png
 │     └─ broken_arrow_exe_icon_ref.png
 ├─ deck_sets/
-├─ legacy/
-│  └─ tkinter/
-│     ├─ broken_arrow_deck_manager.tkinter_backup.py
-│     └─ broken_arrow_deck_manager.tkinter_backup.pyw
+├─ locales/
+│  ├─ en.json
+│  ├─ de.json
+│  ├─ es.json
+│  ├─ fr.json
+│  ├─ ja.json
+│  ├─ ko.json
+│  ├─ pt-BR.json
+│  ├─ ru.json
+│  ├─ zh-Hans.json
+│  └─ zh-Hant.json
 ├─ packaging/
 │  └─ BrokenArrowDeckManager.spec
 ├─ src/
@@ -238,10 +275,10 @@ Key files:
 
 - `src\broken_arrow_deck_manager.py`: main `PySide6` application
 - `src\broken_arrow_deck_manager.pyw`: terminal-free source launcher
+- `locales\*.json`: runtime language files
 - `packaging\BrokenArrowDeckManager.spec`: `PyInstaller` build spec
 - `assets\icons\...`: app icons and reference image
 - `deck_sets\...`: saved deck sets used by the tool
-- `legacy\tkinter\...`: backup of the older Tkinter version
 
 ## Git
 

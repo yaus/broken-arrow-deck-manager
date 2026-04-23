@@ -47,6 +47,7 @@ def get_app_root() -> Path:
 APP_ROOT = get_app_root()
 RESOURCE_ROOT = Path(getattr(sys, "_MEIPASS", APP_ROOT)).resolve()
 SETTINGS_PATH = APP_ROOT / "deck_manager_settings.json"
+LOCALES_ROOT = APP_ROOT / "locales"
 DEFAULT_STORAGE_ROOT = APP_ROOT / "deck_sets"
 DEFAULT_ACTIVE_DECKS_PATH = (
     Path.home() / "AppData" / "LocalLow" / "SteelBalalaikaStudio" / "BrokenArrow" / "Decks"
@@ -59,136 +60,47 @@ APP_ICON_PATH = APP_ROOT / "assets" / "icons" / "broken_arrow_deck_manager_icon.
 if not APP_ICON_PATH.exists():
     APP_ICON_PATH = RESOURCE_ROOT / "broken_arrow_deck_manager_icon.ico"
 APP_LANGUAGE = "en"
+LANGUAGES: dict[str, str] = {}
+TEXT: dict[str, dict[str, str]] = {}
 
-LANGUAGES = {
-    "en": "English",
-    "zh-Hant": "繁體中文",
-}
 
-TEXT = {
-    "en": {
-        "app_title": "Broken Arrow Deck Manager",
-        "menu_file": "File",
-        "menu_settings": "Settings",
-        "menu_language": "Language",
-        "menu_help": "Help",
-        "options": "Options",
-        "exit": "Exit",
-        "about": "About",
-        "environment": "Game and Folders",
-        "active_folder": "Active deck folder: {path}",
-        "active_count": "Active decks: {count} file(s)",
-        "saved_count": "Saved deck sets: {count}",
-        "game_path": "Game install: {path}",
-        "game_path_missing": "Game install: not found",
-        "game_version": "Game version: {version}",
-        "col_set": "Deck set",
-        "col_branch": "Branch",
-        "col_version_match": "Same branch",
-        "col_active_match": "Same as active",
-        "tip_set": "Name of the saved deck set.",
-        "tip_branch": "Steam branch recorded when the set was saved.",
-        "tip_version_match": "Checked when the saved set was made for the currently detected branch.",
-        "tip_active_match": "Checked when the saved set has the same .dek files as the active game folder.",
-        "actions": "Deck Actions",
-        "backup_name": "New backup name",
-        "backup_current": "Back Up Current Decks",
-        "switch_selected": "Use Selected Deck Set",
-        "skip_backup": "Switch without making a safety backup",
-        "refresh": "Refresh",
-        "open_saved": "Open Saved Deck Sets",
-        "open_active": "Open Active Decks",
-        "selected_set": "Selected Deck Set",
-        "select_set": "Choose a deck set to see its details.",
-        "backup_note": "Note for this backup",
-        "save_note": "Save Note",
-        "details": "Selected: {name}\nDecks: {count} | Created: {created}\nVersion: {version}\nHash: {hash}",
-        "unknown": "Unknown",
-        "refreshed": "Deck set list refreshed.",
-        "about_title": "About Broken Arrow Deck Manager",
-        "about_body": "Broken Arrow Deck Manager\n\nKeeps deck backups, switches active decks, and checks branch/version matches.\n\nAuthor: YauS\nMade with Codex",
-        "active_missing": "The active deck folder does not exist.",
-        "backup_failed": "Backup Failed",
-        "backup_created": "Backup created: {path}",
-        "select_first": "Choose a saved deck set first.",
-        "confirm_switch": "Switch active decks to \"{name}\"?",
-        "confirm_auto_backup": "\n\nThe current active decks will be backed up first.",
-        "confirm_switch_title": "Switch Deck Set?",
-        "switch_failed": "Switch Failed",
-        "switch_done": "Active deck set switched to: {name}",
-        "save_note_failed": "Save Note Failed",
-        "save_note_done": "Saved note for: {name}",
-        "options_title": "Options",
-        "saved_folder": "Saved deck sets folder",
-        "active_decks_folder": "Active game deck folder",
-        "language": "Language",
-        "browse": "Browse",
-        "options_saved": "Options saved.",
-        "folder_required": "Choose both folders before saving.",
-        "invalid_folder_title": "Invalid Folder",
-    },
-    "zh-Hant": {
-        "app_title": "Broken Arrow 牌組管理器",
-        "menu_file": "檔案",
-        "menu_settings": "設定",
-        "menu_language": "語言",
-        "menu_help": "說明",
-        "options": "選項",
-        "exit": "結束",
-        "about": "關於",
-        "environment": "遊戲與資料夾",
-        "active_folder": "目前遊戲牌組資料夾：{path}",
-        "active_count": "目前牌組：{count} 個檔案",
-        "saved_count": "已儲存牌組組合：{count}",
-        "game_path": "遊戲安裝位置：{path}",
-        "game_path_missing": "遊戲安裝位置：找不到",
-        "game_version": "偵測到的遊戲版本：{version}",
-        "col_set": "牌組組合",
-        "col_branch": "分支",
-        "col_version_match": "同分支",
-        "col_active_match": "與目前相同",
-        "tip_set": "已儲存的牌組組合名稱。",
-        "tip_branch": "儲存此組合時記錄的 Steam 分支。",
-        "tip_version_match": "若此組合的分支與目前偵測到的分支一致，這裡會勾選。",
-        "tip_active_match": "若此組合的 .dek 檔與目前遊戲資料夾完全相同，這裡會勾選。",
-        "actions": "牌組操作",
-        "backup_name": "新備份名稱",
-        "backup_current": "備份目前牌組",
-        "switch_selected": "套用選取的牌組組合",
-        "skip_backup": "切換前不要建立安全備份",
-        "refresh": "重新整理",
-        "open_saved": "開啟已儲存牌組",
-        "open_active": "開啟目前遊戲牌組",
-        "selected_set": "選取的牌組組合",
-        "select_set": "選擇一個牌組組合以查看詳細資料。",
-        "backup_note": "此備份的備註",
-        "save_note": "儲存備註",
-        "details": "選取：{name}\n牌組：{count} | 建立時間：{created}\n版本：{version}\n雜湊：{hash}",
-        "unknown": "未知",
-        "refreshed": "牌組組合清單已重新整理。",
-        "about_title": "關於 Broken Arrow 牌組管理器",
-        "about_body": "Broken Arrow 牌組管理器\n\n用來保存牌組備份、切換目前牌組，並檢查分支與版本是否相符。\n\n作者：YauS\n使用 Codex 製作",
-        "active_missing": "目前遊戲牌組資料夾不存在。",
-        "backup_failed": "備份失敗",
-        "backup_created": "已建立備份：{path}",
-        "select_first": "請先選擇一個已儲存的牌組組合。",
-        "confirm_switch": "要將目前牌組切換成「{name}」嗎？",
-        "confirm_auto_backup": "\n\n目前牌組會先自動建立備份。",
-        "confirm_switch_title": "切換牌組組合？",
-        "switch_failed": "切換失敗",
-        "switch_done": "目前牌組已切換為：{name}",
-        "save_note_failed": "儲存備註失敗",
-        "save_note_done": "已儲存備註：{name}",
-        "options_title": "選項",
-        "saved_folder": "已儲存牌組資料夾",
-        "active_decks_folder": "目前遊戲牌組資料夾",
-        "language": "語言",
-        "browse": "瀏覽",
-        "options_saved": "選項已儲存。",
-        "folder_required": "儲存前請先選擇兩個資料夾。",
-        "invalid_folder_title": "資料夾無效",
-    },
-}
+def load_locales() -> None:
+    global LANGUAGES, TEXT
+
+    locales_root = LOCALES_ROOT
+    if not locales_root.exists():
+        bundled_locales_root = RESOURCE_ROOT / "locales"
+        if bundled_locales_root.exists():
+            locales_root = bundled_locales_root
+
+    loaded_languages: dict[str, str] = {}
+    loaded_text: dict[str, dict[str, str]] = {}
+
+    for path in sorted(locales_root.glob("*.json")):
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+
+        code = payload.get("code")
+        label = payload.get("label")
+        strings = payload.get("strings")
+        if not isinstance(code, str) or not code:
+            continue
+        if not isinstance(label, str) or not label:
+            continue
+        if not isinstance(strings, dict):
+            continue
+
+        normalized_strings = {str(key): str(value) for key, value in strings.items()}
+        loaded_languages[code] = label
+        loaded_text[code] = normalized_strings
+
+    if "en" not in loaded_text:
+        raise RuntimeError("Missing required locale file: en.json")
+
+    LANGUAGES = loaded_languages
+    TEXT = loaded_text
 
 
 def t(key: str, **values: object) -> str:
@@ -1154,6 +1066,7 @@ class DeckManagerWindow(QMainWindow):
 
 
 def main() -> int:
+    load_locales()
     load_settings()
     ensure_storage_root()
     stamp_missing_set_versions()
