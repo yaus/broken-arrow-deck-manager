@@ -14,19 +14,18 @@ Made with `Codex`
 - blocks switching when the saved set branch does not match the current game branch
 - shows whether a saved set matches the current active decks exactly
 - lets you change the saved-set folder and active deck folder from the app
-- supports `English` and `Traditional Chinese`
+- supports 10 UI languages loaded from external locale files
 - opens the active deck folder and saved-set folder in File Explorer
 
 ## Requirements
 
 - Windows
-- Python `3.12`
-- `PySide6`
+- Python `3.14`
 
-If you need to install the UI dependency:
+Install the project dependencies:
 
 ```powershell
-python -m pip install PySide6
+python -m pip install -e .
 ```
 
 ## Run from source
@@ -34,6 +33,12 @@ python -m pip install PySide6
 ```powershell
 cd <project-root>
 python .\src\broken_arrow_deck_manager.py
+```
+
+You can also launch the installed console entry point:
+
+```powershell
+broken-arrow-deck-manager
 ```
 
 Terminal-free launch:
@@ -52,10 +57,10 @@ The packaged app is portable as a folder-based build. Keep the whole `BrokenArro
 
 ## Build the exe
 
-Install `PyInstaller` if needed:
+Install the build dependency set if needed:
 
 ```powershell
-python -m pip install pyinstaller
+python -m pip install -e .[build]
 ```
 
 Build:
@@ -91,6 +96,18 @@ Default saved-set folder when running the packaged app:
 dist\BrokenArrowDeckManager\deck_sets
 ```
 
+## Project metadata
+
+The project now uses `pyproject.toml` and targets Python `3.14+`.
+
+Useful install variants:
+
+```powershell
+python -m pip install -e .
+python -m pip install -e .[dev]
+python -m pip install -e .[build]
+```
+
 ## Relative folder behavior
 
 The tool now stores saved deck sets relative to the app location:
@@ -99,6 +116,13 @@ The tool now stores saved deck sets relative to the app location:
 - packaged run: next to `BrokenArrowDeckManager.exe`
 
 For packaged builds, the app can seed the relative `deck_sets` folder from bundled data on first run.
+
+The source code is split into separate modules for:
+
+- entrypoint/bootstrap
+- locale loading
+- deck/storage/game logic
+- Qt UI
 
 ## Settings and persistence
 
@@ -265,19 +289,28 @@ deck_tools/
 │  └─ BrokenArrowDeckManager.spec
 ├─ src/
 │  ├─ broken_arrow_deck_manager.py
-│  └─ broken_arrow_deck_manager.pyw
+│  ├─ broken_arrow_deck_manager.pyw
+│  ├─ deck_manager_i18n.py
+│  ├─ deck_manager_logic.py
+│  └─ deck_manager_ui.py
 ├─ .gitignore
+├─ LICENSE
+├─ pyproject.toml
 └─ README.md
 ```
 
 Key files:
 
-- `src\broken_arrow_deck_manager.py`: main `PySide6` application
+- `pyproject.toml`: project metadata, dependencies, and Python version target
+- `src\broken_arrow_deck_manager.py`: startup/bootstrap entrypoint
 - `src\broken_arrow_deck_manager.pyw`: terminal-free source launcher
+- `src\deck_manager_i18n.py`: locale loading and translation lookup
+- `src\deck_manager_logic.py`: deck management, storage, settings, and game detection logic
+- `src\deck_manager_ui.py`: `PySide6` dialogs and main window
 - `locales\*.json`: runtime language files
 - `packaging\BrokenArrowDeckManager.spec`: `PyInstaller` build spec
 - `assets\icons\...`: app icons
-- `deck_sets\...`: saved deck sets used by the tool
+- `deck_sets\...`: local saved deck sets used by the tool when present
 
 ## Git
 
@@ -288,7 +321,12 @@ Ignored files:
 - `build/`
 - `dist/`
 - `__pycache__/`
+- `deck_sets/`
 - `deck_manager_settings.json`
+
+## License
+
+This project is licensed under the `MIT` license. See `LICENSE`.
 
 ## Notes
 

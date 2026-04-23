@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=80", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "broken-arrow-deck-manager"
+version = "1.0.1"
+description = "Windows desktop tool for Broken Arrow deck backup, switching, and restore management."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.14"
+authors = [
+  { name = "YauS" }
+]
+dependencies = [
+  "PySide6>=6.8",
+]
+
+[project.optional-dependencies]
+build = [
+  "pyinstaller>=6.0",
+]
+dev = [
+  "pylint>=3.3",
+]
+
+[project.scripts]
+broken-arrow-deck-manager = "broken_arrow_deck_manager:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+py-modules = [
+  "broken_arrow_deck_manager",
+  "deck_manager_i18n",
+  "deck_manager_logic",
+  "deck_manager_ui",
+]
+
+[tool.pylint.main]
+rcfile = ".pylintrc"
