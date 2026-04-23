@@ -9,7 +9,10 @@ disable=
     no-name-in-module,
     global-statement,
     too-few-public-methods,
+    too-many-arguments,
     too-many-lines,
     too-many-instance-attributes,
+    too-many-positional-arguments,
+    too-many-public-methods,
     too-many-statements,
     broad-exception-caught
