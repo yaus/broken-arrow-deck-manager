@@ -131,7 +131,7 @@ Supported languages:
 
 Change language from the menu:
 
-`Language` -> `English` or `繁體中文`
+`Language` -> choose any installed locale from `locales\`
 
 Languages are loaded from:
 
@@ -249,7 +249,6 @@ deck_tools/
 │  └─ icons/
 │     ├─ broken_arrow_deck_manager_icon.ico
 │     ├─ broken_arrow_deck_manager_icon.png
-│     └─ broken_arrow_exe_icon_ref.png
 ├─ deck_sets/
 ├─ locales/
 │  ├─ en.json
@@ -277,7 +276,7 @@ Key files:
 - `src\broken_arrow_deck_manager.pyw`: terminal-free source launcher
 - `locales\*.json`: runtime language files
 - `packaging\BrokenArrowDeckManager.spec`: `PyInstaller` build spec
-- `assets\icons\...`: app icons and reference image
+- `assets\icons\...`: app icons
 - `deck_sets\...`: saved deck sets used by the tool
 
 ## Git
