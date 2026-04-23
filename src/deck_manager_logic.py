@@ -4,6 +4,7 @@ import re
 import shutil
 import subprocess
 import hashlib
+import logging
 import winreg
 from dataclasses import dataclass
 from datetime import datetime
@@ -13,6 +14,8 @@ from deck_manager_i18n import LocaleManager
 
 
 BROKEN_ARROW_APP_ID = "1604270"
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -53,6 +56,7 @@ class DeckManagerService:
         self.storage_root = paths.default_storage_root
         self.active_decks_path = paths.default_active_decks_path
         self.auto_root = self.storage_root / "_auto"
+        logger.debug("DeckManagerService initialized.")
 
     def load_settings(self) -> None:
         if not self.paths.settings_path.exists():
