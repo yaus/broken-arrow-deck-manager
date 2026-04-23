@@ -22,6 +22,32 @@ Made with `Codex`
 - Windows
 - Python `3.14`
 
+## Source dependencies
+
+Runtime dependency for the source code:
+
+- `PySide6>=6.8`
+
+These modules are used from the Python standard library and do not need separate installation:
+
+- `argparse`
+- `dataclasses`
+- `datetime`
+- `hashlib`
+- `json`
+- `logging`
+- `pathlib`
+- `re`
+- `shutil`
+- `subprocess`
+- `sys`
+- `winreg`
+
+Optional dependency sets:
+
+- build: `pyinstaller>=6.0`
+- dev: `pylint>=3.3`
+
 Install the project dependencies:
 
 ```powershell
@@ -41,6 +67,20 @@ You can also launch the installed console entry point:
 broken-arrow-deck-manager
 ```
 
+Useful CLI options:
+
+```powershell
+python .\src\broken_arrow_deck_manager.py --debug
+python .\src\broken_arrow_deck_manager.py --cli-verify
+broken-arrow-deck-manager --debug
+broken-arrow-deck-manager --cli-verify
+```
+
+What they do:
+
+- `--debug`: enables debug-level logging
+- `--cli-verify`: prints deck-manager status in the terminal and exits without opening the GUI
+
 Terminal-free launch:
 
 - double-click `src\broken_arrow_deck_manager.pyw`
@@ -54,6 +94,13 @@ dist\BrokenArrowDeckManager\BrokenArrowDeckManager.exe
 ```
 
 The packaged app is portable as a folder-based build. Keep the whole `BrokenArrowDeckManager` folder together.
+
+The repo does not track generated release bundles. Local packaged output should stay in ignored folders such as:
+
+```text
+dist\
+release_downloads\
+```
 
 ## Build the exe
 
@@ -108,6 +155,12 @@ python -m pip install -e .[dev]
 python -m pip install -e .[build]
 ```
 
+Quick dependency check:
+
+```powershell
+python -c "import PySide6, broken_arrow_deck_manager, deck_manager_logic, deck_manager_i18n, deck_manager_ui; print('dependencies ok')"
+```
+
 ## Relative folder behavior
 
 The tool now stores saved deck sets relative to the app location:
@@ -137,6 +190,14 @@ This file is created beside the app and saves:
 - saved deck sets folder
 - active game deck folder
 - selected language
+
+The app also writes logs beside the app as:
+
+```text
+deck_manager.log
+```
+
+By default the app logs at `INFO` level. Use `--debug` for more detailed output.
 
 ## Language support
 
@@ -320,6 +381,7 @@ Ignored files:
 
 - `build/`
 - `dist/`
+- `release_downloads/`
 - `__pycache__/`
 - `deck_sets/`
 - `deck_manager_settings.json`
