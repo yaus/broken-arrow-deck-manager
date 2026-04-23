@@ -41,7 +41,7 @@
     "unknown": "Desconocido",
     "refreshed": "Lista de conjuntos de mazos actualizada.",
     "about_title": "Acerca del administrador de mazos de Broken Arrow",
-    "about_body": "Administrador de mazos de Broken Arrow\n\nGuarda copias de mazos, cambia los mazos activos y comprueba coincidencias de rama/versión.\n\nAutor: YauS\nHecho con Codex",
+    "about_body": "Administrador de mazos de Broken Arrow\nVersión {version}\n\nGuarda copias de mazos, cambia los mazos activos y comprueba coincidencias de rama/versión.\n\nAutor: YauS\nHecho con Codex",
     "active_missing": "La carpeta de mazos activos no existe.",
     "backup_failed": "Error al crear la copia",
     "backup_created": "Copia creada: {path}",

@@ -48,6 +48,7 @@ RESOURCE_ROOT = Path(getattr(sys, "_MEIPASS", APP_ROOT)).resolve()
 SETTINGS_PATH = APP_ROOT / "deck_manager_settings.json"
 LOCALES_ROOT = APP_ROOT / "locales"
 DEFAULT_STORAGE_ROOT = APP_ROOT / "deck_sets"
+APP_VERSION = "1.0.1"
 DEFAULT_ACTIVE_DECKS_PATH = (
     Path.home() / "AppData" / "LocalLow" / "SteelBalalaikaStudio" / "BrokenArrow" / "Decks"
 )
@@ -1000,7 +1001,7 @@ class DeckManagerWindow(QMainWindow):
         QMessageBox.information(
             self,
             t("about_title"),
-            t("about_body"),
+            t("about_body", version=APP_VERSION),
         )
 
     def set_language(self, language: str) -> None:

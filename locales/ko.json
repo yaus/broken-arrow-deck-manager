@@ -41,7 +41,7 @@
     "unknown": "알 수 없음",
     "refreshed": "덱 세트 목록을 새로 고쳤습니다.",
     "about_title": "Broken Arrow 덱 관리자 정보",
-    "about_body": "Broken Arrow 덱 관리자\n\n덱 백업, 활성 덱 전환, 브랜치/버전 일치 확인을 수행합니다.\n\n제작: YauS\nCodex 사용",
+    "about_body": "Broken Arrow 덱 관리자\n버전 {version}\n\n덱 백업, 활성 덱 전환, 브랜치/버전 일치 확인을 수행합니다.\n\n제작: YauS\nCodex 사용",
     "active_missing": "현재 덱 폴더가 존재하지 않습니다.",
     "backup_failed": "백업 실패",
     "backup_created": "백업 생성됨: {path}",

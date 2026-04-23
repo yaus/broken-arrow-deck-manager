@@ -41,7 +41,7 @@
     "unknown": "不明",
     "refreshed": "デッキセット一覧を更新しました。",
     "about_title": "Broken Arrow デッキマネージャーについて",
-    "about_body": "Broken Arrow デッキマネージャー\n\nデッキのバックアップ、切り替え、ブランチ/バージョンの一致確認を行います。\n\n作者: YauS\nCodex 使用",
+    "about_body": "Broken Arrow デッキマネージャー\nバージョン {version}\n\nデッキのバックアップ、切り替え、ブランチ/バージョンの一致確認を行います。\n\n作者: YauS\nCodex 使用",
     "active_missing": "現在のデッキフォルダーが存在しません。",
     "backup_failed": "バックアップに失敗しました",
     "backup_created": "バックアップを作成しました: {path}",

@@ -41,7 +41,7 @@
     "unknown": "Unknown",
     "refreshed": "Deck set list refreshed.",
     "about_title": "About Broken Arrow Deck Manager",
-    "about_body": "Broken Arrow Deck Manager\n\nKeeps deck backups, switches active decks, and checks branch/version matches.\n\nAuthor: YauS\nMade with Codex",
+    "about_body": "Broken Arrow Deck Manager\nVersion {version}\n\nKeeps deck backups, switches active decks, and checks branch/version matches.\n\nAuthor: YauS\nMade with Codex",
     "active_missing": "The active deck folder does not exist.",
     "backup_failed": "Backup Failed",
     "backup_created": "Backup created: {path}",

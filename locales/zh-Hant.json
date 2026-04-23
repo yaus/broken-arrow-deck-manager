@@ -41,7 +41,7 @@
     "unknown": "未知",
     "refreshed": "牌組組合清單已重新整理。",
     "about_title": "關於 Broken Arrow 牌組管理器",
-    "about_body": "Broken Arrow 牌組管理器\n\n用來保存牌組備份、切換目前牌組，並檢查分支與版本是否相符。\n\n作者：YauS\n使用 Codex 製作",
+    "about_body": "Broken Arrow 牌組管理器\n版本 {version}\n\n用來保存牌組備份、切換目前牌組，並檢查分支與版本是否相符。\n\n作者：YauS\n使用 Codex 製作",
     "active_missing": "目前遊戲牌組資料夾不存在。",
     "backup_failed": "備份失敗",
     "backup_created": "已建立備份：{path}",

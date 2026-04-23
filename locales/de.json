@@ -41,7 +41,7 @@
     "unknown": "Unbekannt",
     "refreshed": "Deck-Set-Liste aktualisiert.",
     "about_title": "Über Broken Arrow Deck-Manager",
-    "about_body": "Broken Arrow Deck-Manager\n\nSichert Decks, wechselt aktive Decks und prüft Branch-/Versionsübereinstimmungen.\n\nAutor: YauS\nErstellt mit Codex",
+    "about_body": "Broken Arrow Deck-Manager\nVersion {version}\n\nSichert Decks, wechselt aktive Decks und prüft Branch-/Versionsübereinstimmungen.\n\nAutor: YauS\nErstellt mit Codex",
     "active_missing": "Der aktive Deck-Ordner existiert nicht.",
     "backup_failed": "Backup fehlgeschlagen",
     "backup_created": "Backup erstellt: {path}",

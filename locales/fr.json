@@ -41,7 +41,7 @@
     "unknown": "Inconnu",
     "refreshed": "Liste des ensembles de decks actualisée.",
     "about_title": "À propos du gestionnaire de decks Broken Arrow",
-    "about_body": "Gestionnaire de decks Broken Arrow\n\nSauvegarde les decks, change les decks actifs et vérifie les correspondances de branche/version.\n\nAuteur : YauS\nRéalisé avec Codex",
+    "about_body": "Gestionnaire de decks Broken Arrow\nVersion {version}\n\nSauvegarde les decks, change les decks actifs et vérifie les correspondances de branche/version.\n\nAuteur : YauS\nRéalisé avec Codex",
     "active_missing": "Le dossier des decks actifs n'existe pas.",
     "backup_failed": "Échec de la sauvegarde",
     "backup_created": "Sauvegarde créée : {path}",

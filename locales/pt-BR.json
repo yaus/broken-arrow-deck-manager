@@ -41,7 +41,7 @@
     "unknown": "Desconhecido",
     "refreshed": "Lista de conjuntos de decks atualizada.",
     "about_title": "Sobre o gerenciador de decks do Broken Arrow",
-    "about_body": "Gerenciador de decks do Broken Arrow\n\nFaz backup dos decks, troca os decks ativos e verifica correspondências de branch/versão.\n\nAutor: YauS\nFeito com Codex",
+    "about_body": "Gerenciador de decks do Broken Arrow\nVersão {version}\n\nFaz backup dos decks, troca os decks ativos e verifica correspondências de branch/versão.\n\nAutor: YauS\nFeito com Codex",
     "active_missing": "A pasta de decks ativos não existe.",
     "backup_failed": "Falha no backup",
     "backup_created": "Backup criado: {path}",
