@@ -1,11 +1,11 @@
 {
   "SetName": "PTE_V2",
   "Message": "PTE",
-  "SourcePath": "C:\\Users\\yaumx\\AppData\\LocalLow\\SteelBalalaikaStudio\\BrokenArrow\\Decks",
-  "BackupPath": "C:\\Users\\yaumx\\broken_arrow_diagnostics\\deck_tools\\deck_sets\\PTE_V2",
+  "SourcePath": "%USERPROFILE%\\AppData\\LocalLow\\SteelBalalaikaStudio\\BrokenArrow\\Decks",
+  "BackupPath": "<project-root>\\deck_sets\\PTE_V2",
   "CreatedAt": "2026-04-23T00:23:46.910156",
   "ContentHash": "4554df6361e553a5cab439c2eb292636fce0a291dc2cb2b8acd29c5f54297ece",
   "GameVersion": "Version: Branch openbeta | Build 22887609 | Updated 2026-04-22 21:52:37 (Steam)",
   "Computer": "YAUS-PC",
-  "User": "yaumx"
+  "User": "<user>"
 }

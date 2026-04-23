@@ -32,7 +32,7 @@ python -m pip install PySide6
 ## Run from source
 
 ```powershell
-cd C:\Users\yaumx\broken_arrow_diagnostics\deck_tools
+cd <project-root>
 python .\src\broken_arrow_deck_manager.py
 ```
 
@@ -61,7 +61,7 @@ python -m pip install pyinstaller
 Build:
 
 ```powershell
-cd C:\Users\yaumx\broken_arrow_diagnostics\deck_tools
+cd <project-root>
 python -m PyInstaller --noconfirm --clean .\packaging\BrokenArrowDeckManager.spec
 ```
 
@@ -76,7 +76,7 @@ Copy-Item -Recurse -Force .\deck_sets .\dist\BrokenArrowDeckManager\deck_sets
 Default active game deck folder:
 
 ```text
-C:\Users\<YourUser>\AppData\LocalLow\SteelBalalaikaStudio\BrokenArrow\Decks
+%USERPROFILE%\AppData\LocalLow\SteelBalalaikaStudio\BrokenArrow\Decks
 ```
 
 Default saved-set folder when running from source:
