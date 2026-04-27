@@ -5,6 +5,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QAction, QColor, QIcon
 from PySide6.QtWidgets import (
     QAbstractItemView,
+    QApplication,
     QCheckBox,
     QComboBox,
     QDialog,
@@ -17,6 +18,7 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QMainWindow,
     QMessageBox,
+    QProgressDialog,
     QPushButton,
     QTableWidget,
     QTableWidgetItem,
@@ -161,12 +163,14 @@ class DeckManagerWindow(QMainWindow):
         info_layout = QVBoxLayout(self.info_box)
         info_layout.setSpacing(6)
         self.active_path_label = QLabel()
+        self.storage_path_label = QLabel()
         self.active_summary_label = QLabel()
         self.saved_summary_label = QLabel()
         self.game_path_label = QLabel()
         self.game_version_label = QLabel()
         for label in [
             self.active_path_label,
+            self.storage_path_label,
             self.active_summary_label,
             self.saved_summary_label,
             self.game_path_label,
@@ -224,6 +228,14 @@ class DeckManagerWindow(QMainWindow):
         self.refresh_button = QPushButton()
         self.refresh_button.clicked.connect(self.refresh_clicked)
         controls_layout.addWidget(self.refresh_button)
+
+        self.refresh_game_button = QPushButton()
+        self.refresh_game_button.clicked.connect(self.refresh_game_status_clicked)
+        controls_layout.addWidget(self.refresh_game_button)
+
+        self.set_storage_button = QPushButton()
+        self.set_storage_button.clicked.connect(self.set_backup_storage_path)
+        controls_layout.addWidget(self.set_storage_button)
 
         self.open_sets_button = QPushButton()
         self.open_sets_button.clicked.connect(
@@ -293,6 +305,8 @@ class DeckManagerWindow(QMainWindow):
         self.switch_button.setText(self.t("switch_selected"))
         self.skip_auto_backup_checkbox.setText(self.t("skip_backup"))
         self.refresh_button.setText(self.t("refresh"))
+        self.refresh_game_button.setText(self.t("refresh_game_status"))
+        self.set_storage_button.setText(self.t("set_backup_storage"))
         self.open_sets_button.setText(self.t("open_saved"))
         self.open_active_button.setText(self.t("open_active"))
         self.details_box.setTitle(self.t("selected_set"))
@@ -329,6 +343,17 @@ class DeckManagerWindow(QMainWindow):
     def set_status(self, message: str) -> None:
         self.status_line.setText(message)
 
+    def update_game_status_labels(self) -> None:
+        game_install_dir = self.service.get_game_install_dir()
+        self.game_path_label.setText(
+            self.t("game_path", path=game_install_dir)
+            if game_install_dir
+            else self.t("game_path_missing")
+        )
+        self.game_version_label.setText(
+            self.t("game_version", version=self.service.detect_game_version())
+        )
+
     def refresh_set_list(self) -> None:
         statuses = self.service.get_saved_set_statuses()
         names = [status.name for status in statuses]
@@ -356,19 +381,14 @@ class DeckManagerWindow(QMainWindow):
         self.active_path_label.setText(
             self.t("active_folder", path=self.service.active_decks_path)
         )
+        self.storage_path_label.setText(
+            self.t("backup_storage_folder", path=self.service.storage_root)
+        )
         self.active_summary_label.setText(
             self.t("active_count", count=self.service.active_deck_count())
         )
         self.saved_summary_label.setText(self.t("saved_count", count=len(statuses)))
-        game_install_dir = self.service.get_game_install_dir()
-        self.game_path_label.setText(
-            self.t("game_path", path=game_install_dir)
-            if game_install_dir
-            else self.t("game_path_missing")
-        )
-        self.game_version_label.setText(
-            self.t("game_version", version=self.service.detect_game_version())
-        )
+        self.update_game_status_labels()
 
         if previous_selection and previous_selection in names:
             self.select_set(previous_selection)
@@ -445,6 +465,10 @@ class DeckManagerWindow(QMainWindow):
         self.refresh_set_list()
         self.set_status(self.t("refreshed"))
 
+    def refresh_game_status_clicked(self) -> None:
+        self.refresh_set_list()
+        self.set_status(self.t("game_status_refreshed"))
+
     def show_help(self) -> None:
         QMessageBox.information(
             self,
@@ -484,21 +508,65 @@ class DeckManagerWindow(QMainWindow):
         self.refresh_set_list()
         self.set_status(self.t("options_saved"))
 
+    def set_backup_storage_path(self) -> None:
+        selected = QFileDialog.getExistingDirectory(
+            self,
+            self.t("set_backup_storage_title"),
+            str(self.service.storage_root),
+        )
+        if not selected:
+            return
+
+        self.service.storage_root = Path(selected).expanduser()
+        self.service.auto_root = self.service.storage_root / "_auto"
+        self.service.ensure_storage_root()
+        self.service.save_settings()
+        self.refresh_set_list()
+        self.set_status(self.t("backup_storage_saved", path=self.service.storage_root))
+
     def open_active_decks(self) -> None:
         if not self.service.active_decks_path.exists():
             QMessageBox.warning(self, self.t("app_title"), self.t("active_missing"))
             return
         self.service.open_in_explorer(self.service.active_decks_path)
 
+    def create_progress_callback(self, title: str):
+        progress = QProgressDialog(self)
+        progress.setWindowTitle(title)
+        progress.setWindowModality(Qt.WindowModality.ApplicationModal)
+        progress.setCancelButton(None)
+        progress.setMinimumDuration(0)
+        progress.setMinimum(0)
+        progress.setMaximum(1)
+        progress.setValue(0)
+
+        def update(label: str, value: int, maximum: int) -> None:
+            progress.setLabelText(label)
+            progress.setMaximum(max(1, maximum))
+            progress.setValue(min(value, progress.maximum()))
+            QApplication.processEvents()
+
+        return progress, update
+
     def backup_current(self) -> None:
         set_name = self.backup_name_edit.text().strip()
         message = self.message_edit.toPlainText().strip()
+        progress, progress_callback = self.create_progress_callback(
+            self.t("backup_progress_title")
+        )
         try:
-            destination = self.service.backup_current_decks(set_name, message)
+            destination = self.service.backup_current_decks(
+                set_name,
+                message,
+                progress_callback,
+            )
         except Exception as exc:
+            progress.close()
             QMessageBox.critical(self, self.t("backup_failed"), str(exc))
             self.set_status(str(exc))
             return
+
+        progress.close()
 
         self.refresh_set_list()
         self.select_set(set_name)
@@ -519,12 +587,22 @@ class DeckManagerWindow(QMainWindow):
         if result != QMessageBox.StandardButton.Yes:
             return
 
+        progress, progress_callback = self.create_progress_callback(
+            self.t("restore_progress_title")
+        )
         try:
-            self.service.switch_to_set(selected, self.skip_auto_backup_checkbox.isChecked())
+            self.service.switch_to_set(
+                selected,
+                self.skip_auto_backup_checkbox.isChecked(),
+                progress_callback,
+            )
         except Exception as exc:
+            progress.close()
             QMessageBox.critical(self, self.t("switch_failed"), str(exc))
             self.set_status(str(exc))
             return
+
+        progress.close()
 
         self.refresh_set_list()
         self.select_set(selected)

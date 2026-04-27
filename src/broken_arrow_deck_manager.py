@@ -10,7 +10,7 @@ from deck_manager_logic import AppPaths, DeckManagerService
 from deck_manager_ui import DeckManagerWindow
 
 
-APP_VERSION = "1.0.2"
+APP_VERSION = "1.0.3"
 
 logger = logging.getLogger(__name__)
 

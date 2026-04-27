@@ -6,6 +6,7 @@ import subprocess
 import hashlib
 import logging
 import winreg
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -16,6 +17,7 @@ from deck_manager_i18n import LocaleManager
 BROKEN_ARROW_APP_ID = "1604270"
 
 logger = logging.getLogger(__name__)
+ProgressCallback = Callable[[str, int, int], None]
 
 
 @dataclass
@@ -157,7 +159,12 @@ class DeckManagerService:
             game_version=game_version,
         )
 
-    def backup_current_decks(self, set_name: str, message: str) -> Path:
+    def backup_current_decks(
+        self,
+        set_name: str,
+        message: str,
+        progress_callback: ProgressCallback | None = None,
+    ) -> Path:
         self.validate_set_name(set_name)
         if not self.active_decks_path.exists():
             raise FileNotFoundError(f"Decks folder not found: {self.active_decks_path}")
@@ -173,11 +180,21 @@ class DeckManagerService:
             raise FileExistsError(f"Destination set already exists: {destination}")
 
         destination.mkdir(parents=True, exist_ok=False)
-        self.copy_directory_contents(self.active_decks_path, destination)
+        self.copy_directory_contents(
+            self.active_decks_path,
+            destination,
+            progress_callback,
+            "Copying deck files",
+        )
         self.write_metadata(destination, set_name, message)
         return destination
 
-    def switch_to_set(self, set_name: str, skip_auto_backup: bool) -> None:
+    def switch_to_set(
+        self,
+        set_name: str,
+        skip_auto_backup: bool,
+        progress_callback: ProgressCallback | None = None,
+    ) -> None:
         if not self.active_decks_path.exists():
             raise FileNotFoundError(f"Decks folder not found: {self.active_decks_path}")
         if self.is_game_running():
@@ -214,7 +231,12 @@ class DeckManagerService:
             for item in list(self.active_decks_path.iterdir()):
                 shutil.move(str(item), str(current_snapshot / item.name))
 
-            self.copy_directory_contents(source_set, self.active_decks_path)
+            self.copy_directory_contents(
+                source_set,
+                self.active_decks_path,
+                progress_callback,
+                "Restoring deck files",
+            )
 
             if skip_auto_backup:
                 shutil.rmtree(work_root, ignore_errors=True)
@@ -227,7 +249,12 @@ class DeckManagerService:
             try:
                 self.remove_directory_contents(self.active_decks_path)
                 if current_snapshot.exists():
-                    self.copy_directory_contents(current_snapshot, self.active_decks_path)
+                    self.copy_directory_contents(
+                        current_snapshot,
+                        self.active_decks_path,
+                        progress_callback,
+                        "Rolling back deck files",
+                    )
             except Exception as restore_error:
                 raise RuntimeError(
                     "Switch failed and restore also failed. "
@@ -346,14 +373,39 @@ class DeckManagerService:
             raise ValueError(f"Set name contains invalid path characters: {set_name}")
 
     @staticmethod
-    def copy_directory_contents(source: Path, destination: Path) -> None:
+    def copy_directory_contents(
+        source: Path,
+        destination: Path,
+        progress_callback: ProgressCallback | None = None,
+        progress_label: str = "Copying files",
+    ) -> None:
         destination.mkdir(parents=True, exist_ok=True)
+        copy_items = [item for item in source.rglob("*") if item.is_file()]
+        total = max(1, len(copy_items))
+
+        if progress_callback:
+            progress_callback(progress_label, 0, total)
+
+        copied = 0
         for item in source.iterdir():
             target = destination / item.name
             if item.is_dir():
-                shutil.copytree(item, target, dirs_exist_ok=True)
+                target.mkdir(parents=True, exist_ok=True)
+                for nested in item.rglob("*"):
+                    nested_target = target / nested.relative_to(item)
+                    if nested.is_dir():
+                        nested_target.mkdir(parents=True, exist_ok=True)
+                        continue
+                    nested_target.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(nested, nested_target)
+                    copied += 1
+                    if progress_callback:
+                        progress_callback(progress_label, copied, total)
             else:
                 shutil.copy2(item, target)
+                copied += 1
+                if progress_callback:
+                    progress_callback(progress_label, copied, total)
 
     @staticmethod
     def remove_directory_contents(path: Path) -> None:

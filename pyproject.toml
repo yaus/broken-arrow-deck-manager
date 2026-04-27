@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "broken-arrow-deck-manager"
-version = "1.0.2"
+version = "1.0.3"
 description = "Windows desktop tool for Broken Arrow deck backup, switching, and restore management."
 readme = "README.md"
 license = { text = "MIT" }
