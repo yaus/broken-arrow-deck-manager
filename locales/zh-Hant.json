@@ -51,6 +51,8 @@
     "active_missing": "目前遊戲牌組資料夾不存在。",
     "backup_failed": "備份失敗",
     "backup_created": "已建立備份：{path}",
+    "confirm_backup_overwrite_title": "覆寫備份？",
+    "confirm_backup_overwrite": "名為「{name}」的備份已存在。要覆寫它嗎？",
     "select_first": "請先選擇一個已儲存的牌組組合。",
     "confirm_switch": "要將目前牌組切換成「{name}」嗎？",
     "confirm_auto_backup": "\n\n目前牌組會先自動建立備份。",

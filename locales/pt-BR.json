@@ -51,6 +51,8 @@
     "active_missing": "A pasta de decks ativos não existe.",
     "backup_failed": "Falha no backup",
     "backup_created": "Backup criado: {path}",
+    "confirm_backup_overwrite_title": "Sobrescrever backup?",
+    "confirm_backup_overwrite": "Ja existe um backup chamado \"{name}\". Sobrescrever?",
     "select_first": "Escolha primeiro um conjunto de decks salvo.",
     "confirm_switch": "Trocar os decks ativos para \"{name}\"?",
     "confirm_auto_backup": "\n\nOs decks ativos atuais serão salvos automaticamente primeiro.",

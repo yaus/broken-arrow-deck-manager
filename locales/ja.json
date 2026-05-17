@@ -51,6 +51,8 @@
     "active_missing": "現在のデッキフォルダーが存在しません。",
     "backup_failed": "バックアップに失敗しました",
     "backup_created": "バックアップを作成しました: {path}",
+    "confirm_backup_overwrite_title": "バックアップを上書きしますか？",
+    "confirm_backup_overwrite": "「{name}」というバックアップは既に存在します。上書きしますか？",
     "select_first": "先に保存済みデッキセットを選択してください。",
     "confirm_switch": "現在のデッキを「{name}」に切り替えますか？",
     "confirm_auto_backup": "\n\n現在のデッキは先に自動バックアップされます。",

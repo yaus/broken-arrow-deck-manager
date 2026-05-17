@@ -289,6 +289,15 @@ Open:
 
 `Help` -> `About`
 
+## Backup behavior
+
+When backing up the current decks:
+
+- the backup name is checked before any files are copied
+- if a saved set with the same name already exists, the app asks whether to overwrite it
+- choosing `No` cancels the backup and leaves the existing saved set unchanged
+- choosing `Yes` replaces the existing saved set with the current active decks
+
 ## Switching behavior
 
 When switching to a saved set:

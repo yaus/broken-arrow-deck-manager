@@ -51,6 +51,8 @@
     "active_missing": "Le dossier des decks actifs n'existe pas.",
     "backup_failed": "Échec de la sauvegarde",
     "backup_created": "Sauvegarde créée : {path}",
+    "confirm_backup_overwrite_title": "Ecraser la sauvegarde ?",
+    "confirm_backup_overwrite": "Une sauvegarde nommee \"{name}\" existe deja. L'ecraser ?",
     "select_first": "Choisissez d'abord un ensemble de decks enregistré.",
     "confirm_switch": "Remplacer les decks actifs par \"{name}\" ?",
     "confirm_auto_backup": "\n\nLes decks actifs actuels seront d'abord sauvegardés automatiquement.",

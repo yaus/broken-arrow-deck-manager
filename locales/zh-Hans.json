@@ -51,6 +51,8 @@
     "active_missing": "当前游戏牌组文件夹不存在。",
     "backup_failed": "备份失败",
     "backup_created": "已创建备份：{path}",
+    "confirm_backup_overwrite_title": "覆盖备份？",
+    "confirm_backup_overwrite": "名为“{name}”的备份已存在。要覆盖它吗？",
     "select_first": "请先选择一个已保存的牌组组合。",
     "confirm_switch": "要将当前牌组切换为“{name}”吗？",
     "confirm_auto_backup": "\n\n当前牌组会先自动创建备份。",

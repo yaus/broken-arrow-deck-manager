@@ -29,6 +29,7 @@ Current behavior:
 - Settings file is deck_manager_settings.json beside APP_ROOT.
 - Default saved deck folder is APP_ROOT\deck_sets.
 - Default active game deck folder is %USERPROFILE%\AppData\LocalLow\SteelBalalaikaStudio\BrokenArrow\Decks.
+- Creating a backup with a name that already exists prompts before overwriting the saved set.
 - UI currently ships with 10 locales: en, zh-Hant, zh-Hans, ja, ko, ru, de, fr, es, pt-BR.
 - File -> Options lets the user change saved deck folder, active deck folder, and language.
 

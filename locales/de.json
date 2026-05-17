@@ -51,6 +51,8 @@
     "active_missing": "Der aktive Deck-Ordner existiert nicht.",
     "backup_failed": "Backup fehlgeschlagen",
     "backup_created": "Backup erstellt: {path}",
+    "confirm_backup_overwrite_title": "Backup ueberschreiben?",
+    "confirm_backup_overwrite": "Ein Backup mit dem Namen \"{name}\" existiert bereits. Ueberschreiben?",
     "select_first": "Wähle zuerst ein gespeichertes Deck-Set aus.",
     "confirm_switch": "Aktive Decks auf \"{name}\" umstellen?",
     "confirm_auto_backup": "\n\nDie aktuellen aktiven Decks werden zuerst automatisch gesichert.",

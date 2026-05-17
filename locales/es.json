@@ -51,6 +51,8 @@
     "active_missing": "La carpeta de mazos activos no existe.",
     "backup_failed": "Error al crear la copia",
     "backup_created": "Copia creada: {path}",
+    "confirm_backup_overwrite_title": "Sobrescribir copia?",
+    "confirm_backup_overwrite": "Ya existe una copia llamada \"{name}\". Sobrescribirla?",
     "select_first": "Elige primero un conjunto de mazos guardado.",
     "confirm_switch": "¿Cambiar los mazos activos a \"{name}\"?",
     "confirm_auto_backup": "\n\nLos mazos activos actuales se respaldarán primero automáticamente.",
