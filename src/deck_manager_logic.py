@@ -164,6 +164,7 @@ class DeckManagerService:
         set_name: str,
         message: str,
         progress_callback: ProgressCallback | None = None,
+        overwrite: bool = False,
     ) -> Path:
         self.validate_set_name(set_name)
         if not self.active_decks_path.exists():
@@ -177,7 +178,12 @@ class DeckManagerService:
         self.ensure_storage_root()
         destination = self.storage_root / set_name
         if destination.exists():
-            raise FileExistsError(f"Destination set already exists: {destination}")
+            if not overwrite:
+                raise FileExistsError(f"Destination set already exists: {destination}")
+            if destination.is_dir():
+                shutil.rmtree(destination)
+            else:
+                destination.unlink()
 
         destination.mkdir(parents=True, exist_ok=False)
         self.copy_directory_contents(

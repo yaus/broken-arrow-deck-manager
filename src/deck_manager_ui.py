@@ -551,6 +551,25 @@ class DeckManagerWindow(QMainWindow):
     def backup_current(self) -> None:
         set_name = self.backup_name_edit.text().strip()
         message = self.message_edit.toPlainText().strip()
+        try:
+            self.service.validate_set_name(set_name)
+        except ValueError as exc:
+            QMessageBox.critical(self, self.t("backup_failed"), str(exc))
+            self.set_status(str(exc))
+            return
+
+        overwrite = False
+        destination = self.service.storage_root / set_name
+        if destination.exists():
+            result = QMessageBox.question(
+                self,
+                self.t("confirm_backup_overwrite_title"),
+                self.t("confirm_backup_overwrite", name=set_name),
+            )
+            if result != QMessageBox.StandardButton.Yes:
+                return
+            overwrite = True
+
         progress, progress_callback = self.create_progress_callback(
             self.t("backup_progress_title")
         )
@@ -559,6 +578,7 @@ class DeckManagerWindow(QMainWindow):
                 set_name,
                 message,
                 progress_callback,
+                overwrite,
             )
         except Exception as exc:
             progress.close()

@@ -51,6 +51,8 @@
     "active_missing": "The active deck folder does not exist.",
     "backup_failed": "Backup Failed",
     "backup_created": "Backup created: {path}",
+    "confirm_backup_overwrite_title": "Overwrite Backup?",
+    "confirm_backup_overwrite": "A backup named \"{name}\" already exists. Overwrite it?",
     "select_first": "Choose a saved deck set first.",
     "confirm_switch": "Switch active decks to \"{name}\"?",
     "confirm_auto_backup": "\n\nThe current active decks will be backed up first.",
