@@ -372,6 +372,7 @@ deck_tools/
 Key files:
 
 - `pyproject.toml`: project metadata, dependencies, and Python version target
+- `CHANGELOG.md`: release history
 - `src\broken_arrow_deck_manager.py`: startup/bootstrap entrypoint
 - `src\broken_arrow_deck_manager.pyw`: terminal-free source launcher
 - `src\deck_manager_i18n.py`: locale loading and translation lookup
